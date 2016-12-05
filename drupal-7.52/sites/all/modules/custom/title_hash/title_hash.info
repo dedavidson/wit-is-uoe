@@ -7,3 +7,4 @@ files[] = title_hash.module
 files[] = title_hash.test
 ;dependencies[] = views
 ;php = 5.3
+configure = admin/config/title_hash/manage

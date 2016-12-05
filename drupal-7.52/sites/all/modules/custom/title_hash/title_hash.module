@@ -93,3 +93,83 @@ function title_hash_menu() {
   
   return $items;
 }
+
+/**
+ * Create and display the Title Hash settings form.
+ */
+function title_hash_settings_form($form, &$form_state) {
+  $form = array();
+
+  $form['overview'] = array(
+    '#markup' => t('This interface allows administrators to manage Title Hash settings.'),
+    '#prefix' => '<p>',
+    '#suffix' => '</p>',
+  );
+
+  $form['hashing'] = array(
+    '#title' => t('Hashing'),
+    '#description' => t('Settings for hashing methods'),
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['hashing']['title_hash_hash_method'] = array(
+    '#title' => t('Hash Method'),
+    '#description' => t('The method to use to generate the hash.'),
+    '#type' => 'select',
+    '#options' => array(
+      0 => t('MD5'),
+      1 => t('SHA1'),
+     ),
+    '#default_value' => variable_get('title_hash_hash_method', 0),
+    '#required' => TRUE,
+  );
+  
+  $form['title_hash_display_prefix'] = array(
+    '#title' => t('Display Prefix'),
+    '#description' => t('Text to display before the resultant hash.'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('title_hash_display_prefix', 'Hash: '),
+    '#required' => TRUE,
+  );
+
+  /*$form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );*/
+
+  //return $form;
+  
+  return system_settings_form($form);
+}
+
+/**
+ * Validates Title Hash settings.
+ */
+function title_hash_settings_form_validate($form, &$form_state) {
+  //dpm($form_state['values']);
+
+  // Regular expression for validating prefix text.
+  $colon_end_regex = '/^.*\: $/';
+
+  // Validate prefix text.
+  if (!preg_match($colon_end_regex, $form_state['values']['title_hash_display_prefix'])) {
+    form_set_error('title_hash_display_prefix', t('Prefix text must end with a colon and a space.'));
+  }
+
+}
+
+/**
+ * Process a validated Title Hash setting submission.
+ */
+/*function title_hash_settings_form_submit($form, &$form_state) {
+  // Rebuild the form
+  $form_state['rebuild'] = TRUE;
+
+  // Save variables.
+  variable_set('title_hash_hash_method', $form_state['values']['title_hash_hash_method']);
+  variable_set('title_hash_display_prefix', $form_state['values']['title_hash_display_prefix']);
+
+  drupal_set_message(t('Title Hash settings saved.'));
+}*/

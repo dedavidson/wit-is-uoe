@@ -1,0 +1,31 @@
+<?php
+/**
+ * @file
+ * Title Hash installation
+ */
+
+/**
+ * Implements hook_install().
+ */
+function title_hash_install() {
+
+  variable_set('title_hash_hash_method', 0);
+  variable_set('title_hash_display_prefix', 'Hash:');
+
+  // Get localization function for installation as t() may be unavailable.
+  $t = get_t();
+
+  drupal_set_message($t('Title Hash variables created.'));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function title_hash_uninstall() {
+
+  variable_del('title_hash_hash_method');
+  variable_del('title_hash_display_prefix');
+  
+  $t = get_t();
+  drupal_set_message($t('Title Hash variables removed.'));
+}
