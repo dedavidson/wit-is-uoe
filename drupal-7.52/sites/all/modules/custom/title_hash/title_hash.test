@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Tests for the Title Hash module.
+ */
+
+class TitleHashTestCase extends DrupalWebTestCase {
+  
+  public function setUp() {
+    parent::setUp('title_hash');
+  }
+  
+  public static function getInfo() {
+    return array(
+      'name' => 'Title Hash block functionality',
+      'description' => 'Test blocks in the Title Hash module.',
+      'group' => 'Title Hash',
+    );
+  }
+  
+  public function testBlockInfo() {
+    $info = module_invoke('title_hash', 'block_info');
+    $this->assertEqual(2, count($info), t('Module defines a block.'));
+    $this->assertTrue(isset($info['title_hash']), t('Module list exists.'));
+  }
+  
+  public function testBlockView() {
+    $data  = module_invoke('title_hash', 'block_view', 'title_hash');
+    $this->assertTrue(is_array($data), t('Block returns renderable array.'));
+    $this->assertEqual(t('Title Hash'), $data['subject'], t('Subject is set'));
+  }
+}

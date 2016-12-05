@@ -1,0 +1,9 @@
+name = Title Hash
+description = A module to generate hash of node titles.
+package = University of Edinburgh
+core = 7.x
+version = "7.x-1.0-dev"
+files[] = title_hash.module
+files[] = title_hash.test
+;dependencies[] = views
+;php = 5.3

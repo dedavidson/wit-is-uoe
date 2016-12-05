@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * @file
+ * A module that will generate a hash of node titles.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function title_hash_help($path, $arg) {
+  if ($path == 'admin/help#title_hash') {
+    $help = '<h3>' . t('About') . '</h3>';
+    $help .= '<p>' . t('A module that generates a hash of node titles.') . '</p>';
+    return $help;
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function title_hash_block_info() {
+  $blocks = array();
+  
+  $blocks['title_hash'] = array(
+    'info' => t('Title Hash'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  
+  $blocks['title_count'] = array(
+    'info' => t('Title Count'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+*/
+function title_hash_block_view($delta = '') {
+  $block = array();
+
+  $hash = 'to be implemented later.';
+  $count = 'unknown';
+  
+  switch ($delta) {
+    case 'title_hash':
+      $block['subject'] = t('Title Hash');
+      $block['content'] = t('The hash of node titles is @hash', array('@hash' => $hash));
+      break;
+    case 'title_count':
+      $block['subject'] = t('Title Count');
+      $block['content'] = t('The hash of node titles included @count nodes.', array('@count' => $count));
+      break;
+  }
+  
+  return $block;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function title_hash_permission() {
+  return array(
+    'administer title hash' => array(
+      'title' => t('Administer Title Hash'),
+      'description' => t('Perform administrative tasks for Title Hash.')
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function title_hash_menu() {
+  $items = array();
+  
+  // Admin Configuration Group
+  $items['admin/config/title_hash'] = array(
+    'title' => 'Title Hash',
+    'description' => 'Administer Title Hash',
+    'access arguments' => array('administer title hash'),
+  );
+  
+  //Admin Configuration Settings
+  $items['admin/config/title_hash/manage'] = array(
+    'title' => 'Title Hash settings',
+    'description' => 'Manage Title Hashs settings.',
+    'access arguments' => array('administer title hash'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('title_hash_settings_form'),
+  );
+  
+  return $items;
+}
